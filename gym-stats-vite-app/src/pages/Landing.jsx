@@ -12,7 +12,7 @@ export default function Landing() {
 
         <div className="mb-16">
           <img
-            src="https://images.unsplash.com/photo-1583454110551-d5f39c7c2c81"
+            src="https://source.unsplash.com/1600x900/?gym,fitness"
             alt="Gym"
             className="mx-auto rounded-lg border-4 border-blue-500 max-w-4xl"
           />

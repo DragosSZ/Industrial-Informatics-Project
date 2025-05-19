@@ -20,9 +20,19 @@ export default function Login() {
                             className="w-full p-3 bg-neutral-800 text-gray-200 rounded border border-gray-500"
                         />
                     </div>
-                    {/* Optional: Add login button here, styled to match your theme */}
-                    {/* <button type="submit" className="w-full mt-4 bg-orange-500 text-white py-3 rounded font-bold text-lg">Log In</button> */}
+                    <button
+                        type="submit"
+                        className="w-full mt-4 bg-orange-500 text-white py-3 rounded font-bold text-lg hover:bg-orange-600 transition"
+                    >
+                        Log In
+                    </button>
                 </form>
+                <div className="mt-6 text-center text-sm text-gray-400">
+                    Don't have an account?{" "}
+                    <a href="/signup" className="text-orange-400 hover:underline">
+                        Sign up here
+                    </a>
+                </div>
             </div>
         </div>
     );
