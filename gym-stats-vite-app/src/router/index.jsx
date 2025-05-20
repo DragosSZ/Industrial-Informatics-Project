@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Landing from '../pages/Landing';
 import Programs from '../pages/Programs';
 import Trainer from '../pages/Trainer';
@@ -10,25 +10,34 @@ import Login from "../pages/Login.jsx";
 import MealPlanning from "../pages/MealPlanning.jsx";
 import ProgressTracker from "../pages/ProgressTracker.jsx";
 import Clients from "../pages/Clients.jsx";
-
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export default function AppRouter() {
-    const isLoggedIn= true; // Change to true if user is logged in
-    const isTrainer= false;
+    const { isLoggedIn, isTrainer } = useContext(AuthContext);
 
     return (
         <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/programs" element={<Programs />} />
-            <Route path="/trainer" element={<Trainer />} />
+            <Route
+              path="/trainer"
+              element={isLoggedIn && !isTrainer ? <Trainer /> : <Navigate to="/" replace />}
+            />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/meal-planning" element={<MealPlanning />} />
             <Route path="/progress-tracker" element={<ProgressTracker />} />
-            {isTrainer && <Route path="/clients" element={<Clients />} />}
-            {isLoggedIn && <Route path="/account" element={<Account />} />}
+            <Route
+              path="/account"
+              element={isLoggedIn ? <Account /> : <Navigate to="/login" replace />}
+            />
+            <Route
+              path="/clients"
+              element={isLoggedIn && isTrainer ? <Clients /> : <Navigate to="/" replace />}
+            />
         </Routes>
     );
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 
@@ -12,43 +12,65 @@ export default function ProgressTracker() {
   const [filterDays, setFilterDays] = useState(0);
   const [zoomPhoto, setZoomPhoto] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (photos.length > 0 && photos[0] instanceof File) {
-      const readers = photos.map(file => {
-        return new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result);
-          reader.readAsDataURL(file);
-        });
-      });
-      Promise.all(readers).then((images) => {
-        const newEntry = { date, weight: parseFloat(weight), photos: images };
-        const updated = [...entries];
-        if (editingIndex !== null) {
-          updated[editingIndex] = newEntry;
-          setEditingIndex(null);
-        } else {
-          updated.push(newEntry);
+  useEffect(() => {
+    const fetchEntries = async () => {
+      const token = localStorage.getItem("token");
+      const res = await fetch("http://localhost:5000/api/progress", {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-        setEntries(updated);
-        setWeight('');
-        setDate(today);
-        setPhotos([]);
       });
-    } else {
-      const newEntry = { date, weight: parseFloat(weight), photos };
-      if (editingIndex !== null) {
-        const updated = [...entries];
-        updated[editingIndex] = newEntry;
-        setEntries(updated);
-        setEditingIndex(null);
+      if (res.ok) {
+        const data = await res.json();
+        setEntries(data);
       } else {
-        setEntries([...entries, newEntry]);
+        console.error("Failed to fetch progress data.");
       }
+    };
+    fetchEntries();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const token = localStorage.getItem("token");
+    const images = photos.length > 0 && photos[0] instanceof File
+      ? await Promise.all(photos.map(file => {
+          return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.readAsDataURL(file);
+          });
+        }))
+      : [];
+
+    const payload = {
+      weight: parseFloat(weight),
+      height: 0,
+      pictureUrls: images
+    };
+
+    const res = await fetch("http://localhost:5000/api/progress", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      const updated = await fetch("http://localhost:5000/api/progress", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await updated.json();
+      setEntries(data.entries);
       setWeight('');
-      setDate(today);
       setPhotos([]);
+      setDate(today);
+      setEditingIndex(null);
+    } else {
+      console.error("Failed to submit progress entry");
     }
   };
 

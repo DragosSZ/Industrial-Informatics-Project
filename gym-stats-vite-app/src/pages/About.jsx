@@ -27,6 +27,11 @@ export default function About() {
                         <label className="block text-sm mb-1">Your message</label>
                         <textarea placeholder="Your message" rows={4} className="w-full p-3 bg-neutral-800 text-gray-200 rounded border border-gray-500"></textarea>
                     </div>
+                    <div className="md:col-span-2">
+                        <button type="submit" className="w-full p-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded">
+                            Submit
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

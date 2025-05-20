@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("gym-stats-backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b581692c64139eeb99c16525534ed4f1619a7b53")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1742f85e74c91f89b60799a0e7c9f2da5756e80a")]
 [assembly: System.Reflection.AssemblyProductAttribute("gym-stats-backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("gym-stats-backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

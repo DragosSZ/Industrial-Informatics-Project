@@ -1,17 +1,26 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
 export default function Header() {
+    const auth = useContext(AuthContext);
+    const { isLoggedIn, isTrainer, setAuth } = auth;
     const location = useLocation();
-    const isLoggedIn = true; // simulate login state
-    const isTrainer = false; // simulate login state
+    const navigate = useNavigate();
 
     const navLinks = [
         { name: "Programs", path: "/programs" },
-        ...(isTrainer ? [{ name: "Clients", path: "/clients" }] : [{name: "Trainer", path: "/trainer"}]),
+        ...(
+            isLoggedIn
+                ? (isTrainer
+                    ? [{ name: "Clients", path: "/clients" }]
+                    : [{ name: "Trainer", path: "/trainer" }])
+                : []
+        ),
         { name: "About", path: "/about" },
         ...(isLoggedIn ? [{ name: "Account", path: "/account" }] : [{ name: "Login", path: "/login" }]),
-
-
     ];
+    console.log("Auth context:", auth);
 
     return (
         <header className="bg-purple-700 text-white py-4 px-6">
@@ -32,6 +41,18 @@ export default function Header() {
                             </button>
                         </Link>
                     ))}
+                    {isLoggedIn && (
+                        <button
+                            onClick={() => {
+                                localStorage.removeItem("token");
+                                setAuth({ isLoggedIn: false, isTrainer: false, userId: null });
+                                navigate("/");
+                            }}
+                            className="ml-4 rounded px-6 py-2 font-semibold bg-red-500 text-white hover:bg-red-600 transition"
+                        >
+                            Logout
+                        </button>
+                    )}
                 </nav>
             </div>
         </header>

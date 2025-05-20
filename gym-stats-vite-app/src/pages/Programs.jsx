@@ -10,7 +10,7 @@ export default function Programs() {
                 <Link to="/workout-builder" className="block mb-10">
                     <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Workout Builder</h2>
                     <img
-                        src="https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=900&q=80"
+                        src="src/assets/workout.png"
                         alt="Workout Builder"
                         className="rounded-lg w-full h-64 object-cover filter blur-[2px] brightness-75"
                         draggable={false}
@@ -18,10 +18,10 @@ export default function Programs() {
                 </Link>
 
                 {/* Progress Tracker */}
-                <Link to="/progress-tracker" className="block mb-10 border-4 border-blue-500 rounded-lg">
+                <Link to="/progress-tracker" className="block mb-10">
                     <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Progress Tracker</h2>
                     <img
-                        src="https://images.unsplash.com/photo-1509228468518-c7c1e1b3b252?auto=format&fit=crop&w=900&q=80"
+                        src="src/assets/progress2.png"
                         alt="Progress Tracker"
                         className="rounded-lg w-full h-64 object-cover filter blur-[1.5px] brightness-90"
                         draggable={false}

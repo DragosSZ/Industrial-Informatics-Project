@@ -1,10 +1,49 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-
-
-export default function Account({ isLoggedIn }) {
+export default function Account() {
     const navigate = useNavigate();
+    const { setAuth } = useContext(AuthContext);
+    const [userData, setUserData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            setLoading(false);
+            navigate("/login", { replace: true });
+            return;
+        }
+        fetch("http://localhost:5000/api/users/me", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Failed to fetch user data");
+                }
+                return res.json();
+            })
+            .then((data) => {
+                setUserData(data);
+                setAuth({ user: data, token });
+                setLoading(false);
+            })
+            .catch(() => {
+                setAuth(null);
+                localStorage.removeItem("token");
+                setLoading(false);
+                navigate("/login", { replace: true });
+            });
+    }, [navigate, setAuth]);
+
+    if (loading) {
+        return null;
+    }
+
     return (
         <div className="bg-black text-gray-300 min-h-screen pb-16">
             <div className="max-w-4xl mx-auto px-6 pt-14">
@@ -15,8 +54,9 @@ export default function Account({ isLoggedIn }) {
                         <button
                             className="text-xl font-bold text-gray-400 hover:text-white transition"
                             onClick={() => {
+                                localStorage.removeItem("token");
+                                setAuth(null);
                                 navigate("/");
-                                isLoggedIn(false);
                             }}
                         >
                             Log Out
@@ -28,24 +68,24 @@ export default function Account({ isLoggedIn }) {
                     {/* Avatar */}
                     <div className="flex-shrink-0 flex flex-col items-center">
                         <img
-                            src="https://i.imgur.com/WPZ8b9k.png"
+                            src={userData?.avatarUrl || "https://i.imgur.com/WPZ8b9k.png"}
                             alt="avatar"
                             className="w-60 h-60 md:w-72 md:h-72 rounded-2xl object-cover bg-gray-700"
                         />
                     </div>
                     {/* Info */}
                     <div className="flex-1 flex flex-col justify-center gap-2 text-lg md:text-xl text-gray-400 font-medium pl-4">
-                        <div>Name</div>
-                        <div>Email</div>
-                        <div>Date of birth</div>
+                        <div>{userData?.name || "Name"}</div>
+                        <div>{userData?.email || "Email"}</div>
+                        <div>{userData?.dateOfBirth || "Date of birth"}</div>
                         <div className="h-3" />
-                        <div>Start date</div>
-                        <div>Days elapsed</div>
+                        <div>{userData?.startDate || "Start date"}</div>
+                        <div>{userData ? Math.floor((Date.now() - new Date(userData.startDate).getTime()) / (1000 * 60 * 60 * 24)) : "Days elapsed"}</div>
                         <div className="h-3" />
-                        <div>Weight</div>
-                        <div>Height</div>
+                        <div>{userData?.weight ? `${userData.weight} kg` : "Weight"}</div>
+                        <div>{userData?.height ? `${userData.height} cm` : "Height"}</div>
                         <div className="h-3" />
-                        <div>Estimated BMI</div>
+                        <div>{userData?.bmi ? userData.bmi.toFixed(1) : "Estimated BMI"}</div>
                     </div>
                 </div>
 
@@ -58,11 +98,11 @@ export default function Account({ isLoggedIn }) {
                     <h2 className="text-2xl font-bold text-white mb-3">Your Trainer</h2>
                     <div className="flex items-center gap-5">
                         <img
-                            src="https://i.imgur.com/WPZ8b9k.png"
+                            src={userData?.trainer?.avatarUrl || "https://i.imgur.com/WPZ8b9k.png"}
                             alt="trainer avatar"
                             className="w-20 h-20 rounded-full object-cover bg-gray-700"
                         />
-                        <span className="text-xl font-semibold text-gray-300 italic">*name*</span>
+                        <span className="text-xl font-semibold text-gray-300 italic">{userData?.trainer?.name || "*name*"}</span>
                     </div>
                 </div>
             </div>

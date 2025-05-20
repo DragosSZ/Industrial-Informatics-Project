@@ -11,6 +11,7 @@
     "tailwind:init": "tailwindcss-cli init -p"
   },
   "dependencies": {
+    "jwt-decode": "^4.0.0",
     "react": "^19.1.0",
     "react-chartjs-2": "^5.3.0",
     "react-circular-progressbar": "^2.2.0",

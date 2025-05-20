@@ -1,5 +1,6 @@
 using MongoDB.Driver;
 using Microsoft.Extensions.Configuration;
+using gym_stats_backend.Models;
 
 public class MongoDbService
 {
@@ -33,6 +34,8 @@ public class MongoDbService
     {
         return _database.GetCollection<Stat>("stats");
     }
+    public IMongoCollection<User> Users => _database.GetCollection<User>("users");
+    public IMongoCollection<Stat> Stats => _database.GetCollection<Stat>("stats");
 
     // Optional: add more collections here later (e.g., workoutPlans, nutritionPlans, etc.)
 }

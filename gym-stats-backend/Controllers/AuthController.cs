@@ -1,15 +1,23 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using BCrypt.Net;
+using gym_stats_backend.Models;
 
 [ApiController]
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly IMongoCollection<User> _users;
+    private readonly MongoDbService _mongoDbService;
+    private readonly IConfiguration _configuration;
 
-    public AuthController(MongoDbService mongoService)
+    public AuthController(MongoDbService mongoDbService, IConfiguration configuration)
     {
-        _users = mongoService.GetUsersCollection();
+        _mongoDbService = mongoDbService;
+        _configuration = configuration;
     }
 
     [HttpPost("login")]
@@ -28,7 +36,7 @@ public class AuthController : ControllerBase
 
         try
         {
-            var user = await _users.Find(u => u.email == request.email).FirstOrDefaultAsync();
+            var user = await _mongoDbService.Users.Find(u => u.email == request.email).FirstOrDefaultAsync();
 
             if (user == null)
             {
@@ -38,18 +46,42 @@ public class AuthController : ControllerBase
 
             Console.WriteLine($"✅ DB Match: {user.email} / {user.password} / {user.role}");
 
-            if (user.password != request.password)
+            if (!BCrypt.Net.BCrypt.Verify(request.password, user.password))
             {
                 Console.WriteLine("❌ Password does not match");
                 return Unauthorized("Invalid email or password");
             }
 
             Console.WriteLine("✅ Login successful");
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.id),
+                new Claim(JwtRegisteredClaimNames.Email, user.email),
+                new Claim("role", user.role)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"].Trim()));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: "your-app",
+                audience: "your-app",
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(1),
+                signingCredentials: creds
+            );
+
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
             return Ok(new
             {
-                user.id,
-                user.email,
-                user.role
+                token = tokenString,
+                user = new
+                {
+                    user.id,
+                    user.email,
+                    user.role
+                }
             });
         }
         catch (Exception ex)
@@ -57,5 +89,31 @@ public class AuthController : ControllerBase
             Console.WriteLine("❌ EXCEPTION: " + ex.Message);
             return StatusCode(500, "Internal error");
         }
+    }
+    [HttpPost("signup")]
+    public async Task<IActionResult> Signup([FromBody] SignupRequest request)
+    {
+        var existing = await _mongoDbService.Users.Find(u => u.email == request.email).FirstOrDefaultAsync();
+        if (existing != null)
+        {
+            return BadRequest(new { message = "User with this email already exists." });
+        }
+
+        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.password);
+
+        var user = new User
+        {
+            firstName = request.firstName,
+            lastName = request.lastName,
+            email = request.email,
+            password = hashedPassword,
+            role = request.role,
+            stats = new List<Stat>(),
+            pictureUrls = new List<string>()
+        };
+
+        await _mongoDbService.Users.InsertOneAsync(user);
+
+        return Ok(new { message = "User created successfully." });
     }
 }
