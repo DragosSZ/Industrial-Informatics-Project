@@ -1,67 +1,222 @@
-import React from "react";
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import React, { useState } from "react";
 
 export default function MealPlanning() {
-    const meal = [
-        {name: "Whey Isolate Protein Powder", kcal: 176, protein: "39g", carbs: "1.6g", fat: "0.8g"},
-        {name: "Oats", kcal: 531, protein: "18g", carbs: "81g", fat: "9.1g"},
-        {name: "Almond butter", kcal: 184, protein: "6.3g", carbs: "2.6g", fat: "17g"},
-        {name: "Blueberries", kcal: 57, protein: "0.7g", carbs: "12g", fat: "0.3g"},
-        {name: "Banana", kcal: 89, protein: "1.1g", carbs: "20g", fat: "0.3g"},
-        {name: "Dark Chocolate 90% - Lindt", kcal: 59, protein: "1g", carbs: "1.4g", fat: "5.5g"},
-    ];
+    const [meals, setMeals] = useState([
+      [
+        { name: "Oats", kcal: 300, protein: "10", carbs: "50", fat: "5", weight: "100" },
+        { name: "Banana", kcal: 100, protein: "1", carbs: "27", fat: "0.3", weight: "100" },
+      ]
+    ]);
+    const [editingIndex, setEditingIndex] = useState(null); // { mealIdx, index } or null
+    const [isAdding, setIsAdding] = useState(false);
+    const [formData, setFormData] = useState({ name: "", weight: "", kcal: "", protein: "", carbs: "", fat: "" });
 
+    const handleAddMeal = () => {
+      setMeals([...meals, []]);
+    };
+
+    const handleAddNew = () => {
+      setFormData({ name: "", weight: "", kcal: "", protein: "", carbs: "", fat: "" });
+      setIsAdding(true);
+      setEditingIndex(null);
+    };
+
+    const handleFormChange = (e) => {
+      const { name, value } = e.target;
+      setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      const updated = [...meals];
+      if (isAdding) {
+        if (updated.length === 0) updated.push([]);
+        let weightInGrams = parseFloat(formData.weight || 100);
+        const w = weightInGrams / 100;
+        updated[updated.length - 1].push({
+          name: formData.name,
+          kcal: (parseFloat(formData.kcal) * w).toFixed(1),
+          protein: (parseFloat(formData.protein) * w).toFixed(1),
+          carbs: (parseFloat(formData.carbs) * w).toFixed(1),
+          fat: (parseFloat(formData.fat) * w).toFixed(1),
+          weight: `${weightInGrams.toFixed(1)}`,
+        });
+      } else if (editingIndex) {
+        let weightInGrams = parseFloat(formData.weight || 100);
+        const w = weightInGrams / 100;
+        updated[editingIndex.mealIdx][editingIndex.index] = {
+          name: formData.name,
+          kcal: (parseFloat(formData.kcal) * w).toFixed(1),
+          protein: (parseFloat(formData.protein) * w).toFixed(1),
+          carbs: (parseFloat(formData.carbs) * w).toFixed(1),
+          fat: (parseFloat(formData.fat) * w).toFixed(1),
+          weight: `${weightInGrams.toFixed(1)}`,
+        };
+      }
+      setMeals(updated);
+      setEditingIndex(null);
+      setIsAdding(false);
+    };
+
+    const allItems = meals.flat();
     const totalMacros = {
-      kcal: { value: meal.reduce((sum, i) => sum + parseFloat(i.kcal), 0), goal: 3970, color: "#3b82f6" },
-      protein: { value: meal.reduce((sum, i) => sum + parseFloat(i.protein), 0), goal: 269.8, color: "#10b981" },
-      carbs: { value: meal.reduce((sum, i) => sum + parseFloat(i.carbs), 0), goal: 497.9, color: "#facc15" },
-      fat: { value: meal.reduce((sum, i) => sum + parseFloat(i.fat), 0), goal: 78.8, color: "#ec4899" },
+      kcal: { value: allItems.reduce((sum, i) => sum + parseFloat(i.kcal), 0), goal: 2000
+          , color: "#3b82f6" },
+      protein: { value: allItems.reduce((sum, i) => sum + parseFloat(i.protein), 0), goal: 269.8, color: "#10b981" },
+      carbs: { value: allItems.reduce((sum, i) => sum + parseFloat(i.carbs), 0), goal: 497.9, color: "#facc15" },
+      fat: { value: allItems.reduce((sum, i) => sum + parseFloat(i.fat), 0), goal: 78.8, color: "#ec4899" },
     };
 
     return (
         <div className="min-h-screen bg-neutral-900 text-white p-6">
-            <h1 className="text-2xl font-bold mb-4">Nutrition Plan 5 Meals</h1>
+            <h1 className="text-2xl font-bold mb-4">Nutrition Plan</h1>
             <div className="flex flex-col md:flex-row md:justify-between items-center gap-4 mb-6">
-                <div>
-                    <p><span className="text-blue-400">Kcal</span> 3970/3970 kcal</p>
-                    <p><span className="text-green-400">Protein</span> 269.8g/269.8g</p>
-                    <p><span className="text-yellow-400">Carbs</span> 497.9g/497.9g</p>
-                    <p><span className="text-pink-400">Fat</span> 78.8g/78.8g</p>
+                <div className="flex flex-col gap-4 w-full">
+                  {Object.entries(totalMacros).map(([label, { value, goal, color }]) => {
+                    const percent = Math.min((value / goal) * 100, 100).toFixed(1);
+                    return (
+                      <div key={label}>
+                        <div className="flex justify-between mb-1 text-sm">
+                          <span className="capitalize">{label}</span>
+                          <span>{value.toFixed(1)}/{goal} ({percent}%)</span>
+                        </div>
+                        <div className="w-full bg-neutral-700 h-4">
+                          <div
+                            className="h-4 rounded transition-all duration-300"
+                            style={{
+                              width: `${percent}%`,
+                              backgroundColor: color,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-                <div className="grid grid-cols-2 gap-4 w-64">
-                  {Object.entries(totalMacros).map(([label, { value, goal, color }]) => (
-                    <div key={label} className="text-center">
-                      <CircularProgressbar
-                        value={(value / goal) * 100}
-                        text={`${label}`}
-                        styles={buildStyles({
-                          textSize: "28px",
-                          textColor: "#fff",
-                          pathColor: color,
-                          trailColor: "#2d2d2d",
-                        })}
-                      />
+            </div>
+            <div className="flex flex-col gap-4 mb-6">
+              {meals.map((meal, mealIdx) => (
+                <div key={mealIdx} className="bg-neutral-800 p-4 rounded-lg">
+                  <div className="flex justify-between items-center mb-2">
+                    <h2 className="text-lg font-semibold">Meal {mealIdx + 1}</h2>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          setFormData({ name: "", weight: "", kcal: "", protein: "", carbs: "", fat: "" });
+                          setIsAdding(true);
+                          setEditingIndex({ mealIdx, index: null });
+                        }}
+                        className="text-blue-400 text-sm hover:underline"
+                      >
+                        + Add Food
+                      </button>
+                      <button
+                        onClick={() => {
+                          const updated = [...meals];
+                          updated.splice(mealIdx, 1);
+                          setMeals(updated);
+                        }}
+                        className="text-red-400 text-sm hover:underline"
+                      >
+                        Remove Meal
+                      </button>
                     </div>
-                  ))}
-                </div>
-            </div>
-            <h2 className="text-xl font-semibold mb-2">Meal 1.</h2>
-            <div className="bg-neutral-800 p-4 rounded-lg mb-4">
-                <div className="text-sm text-gray-300 mb-3">1096 kcal · 66g protein · 119g carbs · 33g fat</div>
-                <ul className="space-y-2 text-sm">
+                  </div>
+                  <div className="flex justify-between text-xs text-gray-400 px-1 mb-1">
+                    <span className="w-1/2">Item</span>
+                    <span className="w-1/6 text-right">Kcal</span>
+                    <span className="w-1/6 text-right">Protein</span>
+                    <span className="w-1/6 text-right">Carbs</span>
+                    <span className="w-1/6 text-right">Fat</span>
+                  </div>
+                  <ul className="space-y-2 text-sm">
                     {meal.map((item, index) => (
-                        <li key={index} className="flex justify-between border-b border-gray-700 pb-1">
-                            <span className="w-1/2">{item.name}</span>
-                            <span className="w-1/6 text-right">{item.kcal}</span>
-                            <span className="w-1/6 text-right">{item.protein}</span>
-                            <span className="w-1/6 text-right">{item.carbs}</span>
-                            <span className="w-1/6 text-right">{item.fat}</span>
-                        </li>
+                      <li key={index} className="flex justify-between border-b border-gray-700 pb-1">
+                        <span className="w-1/2 flex items-center">
+                          {item.name} <span className="ml-2 text-gray-400 text-xs">({item.weight}g)</span>
+                          <span className="text-blue-400 text-xs cursor-pointer ml-2" onClick={() => {
+                            setEditingIndex({ mealIdx, index });
+                            setIsAdding(false);
+                            setFormData(item);
+                          }}>Edit</span>
+                          <span className="text-red-400 text-xs cursor-pointer ml-2" onClick={() => {
+                            const updated = [...meals];
+                            updated[mealIdx].splice(index, 1);
+                            setMeals(updated);
+                          }}>Remove</span>
+                        </span>
+                        <span className="w-1/6 text-right">{item.kcal}</span>
+                        <span className="w-1/6 text-right">{item.protein}</span>
+                        <span className="w-1/6 text-right">{item.carbs}</span>
+                        <span className="w-1/6 text-right">{item.fat}</span>
+                      </li>
                     ))}
-                </ul>
+                  </ul>
+                </div>
+              ))}
             </div>
-            <div className="text-center text-blue-400 hover:underline cursor-pointer mt-4">+ Add Food</div>
+            <div className="text-center mt-4">
+              <button onClick={handleAddMeal} className="px-4 py-2 bg-green-600 rounded">+ Add Meal</button>
+            </div>
+            {(editingIndex !== null || isAdding) && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="relative bg-neutral-800 p-6 rounded-lg w-full max-w-md space-y-4 text-sm shadow-lg transition-all duration-300">
+                  <button
+                    onClick={() => {
+                      setIsAdding(false);
+                      setEditingIndex(null);
+                    }}
+                    className="absolute top-2 right-3 text-white text-xl hover:text-red-400"
+                  >
+                    ×
+                  </button>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="flex gap-2 flex-wrap">
+                      <input
+                        name="name"
+                        value={formData.name}
+                        onChange={handleFormChange}
+                        placeholder="Name"
+                        className="flex-1 p-2 rounded bg-neutral-700 text-white border border-gray-600"
+                        required
+                      />
+                      <div className="flex gap-2 w-full md:w-auto">
+                        <input
+                          name="weight"
+                          value={formData.weight}
+                          onChange={handleFormChange}
+                          placeholder="Weight"
+                          className="w-full md:w-40 p-2 rounded bg-neutral-700 text-white border border-gray-600"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="w-full text-center text-xs text-gray-400 mt-1 mb-1">
+                      Macros per 100g of product
+                    </div>
+                    <div className="flex gap-2 flex-wrap">
+                      {["kcal", "protein", "carbs", "fat"].map((key) => (
+                        <input
+                          key={key}
+                          name={key}
+                          value={formData[key]}
+                          onChange={handleFormChange}
+                          placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                          className="flex-1 p-2 rounded bg-neutral-700 text-white border border-gray-600"
+                          required
+                        />
+                      ))}
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full bg-blue-500 px-4 py-2 rounded hover:bg-blue-600 transition-all"
+                    >
+                      {isAdding ? "Add" : "Update"}
+                    </button>
+                  </form>
+                </div>
+              </div>
+            )}
         </div>
     );
 }

@@ -8,6 +8,8 @@ import Contact from '../pages/Contact';
 import SignUp from "../pages/Signup.jsx";
 import Login from "../pages/Login.jsx";
 import MealPlanning from "../pages/MealPlanning.jsx";
+import ProgressTracker from "../pages/ProgressTracker.jsx";
+
 
 export default function AppRouter() {
     const isLoggedIn= false; // Change to true if user is logged in
@@ -22,6 +24,7 @@ export default function AppRouter() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/meal-planning" element={<MealPlanning />} />
+            <Route path="/progress-tracker" element={<ProgressTracker />} />
             {isLoggedIn && <Route path="/account" element={<Account />} />}
         </Routes>
     );
