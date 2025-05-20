@@ -1,13 +1,16 @@
 import { Link, useLocation } from "react-router-dom";
 export default function Header() {
     const location = useLocation();
-    const isLoggedIn = false; // simulate login state
+    const isLoggedIn = true; // simulate login state
+    const isTrainer = false; // simulate login state
 
     const navLinks = [
         { name: "Programs", path: "/programs" },
-        { name: "Trainer", path: "/trainer" },
+        ...(isTrainer ? [{ name: "Clients", path: "/clients" }] : [{name: "Trainer", path: "/trainer"}]),
         { name: "About", path: "/about" },
-        ...(isLoggedIn ? [{ name: "Account", path: "/account" }] : [{ name: "Login", path: "/login" }])
+        ...(isLoggedIn ? [{ name: "Account", path: "/account" }] : [{ name: "Login", path: "/login" }]),
+
+
     ];
 
     return (

@@ -9,10 +9,12 @@ import SignUp from "../pages/Signup.jsx";
 import Login from "../pages/Login.jsx";
 import MealPlanning from "../pages/MealPlanning.jsx";
 import ProgressTracker from "../pages/ProgressTracker.jsx";
+import Clients from "../pages/Clients.jsx";
 
 
 export default function AppRouter() {
-    const isLoggedIn= false; // Change to true if user is logged in
+    const isLoggedIn= true; // Change to true if user is logged in
+    const isTrainer= false;
 
     return (
         <Routes>
@@ -25,6 +27,7 @@ export default function AppRouter() {
             <Route path="/login" element={<Login />} />
             <Route path="/meal-planning" element={<MealPlanning />} />
             <Route path="/progress-tracker" element={<ProgressTracker />} />
+            {isTrainer && <Route path="/clients" element={<Clients />} />}
             {isLoggedIn && <Route path="/account" element={<Account />} />}
         </Routes>
     );

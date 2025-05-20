@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function Account() {
+
+
+export default function Account({ isLoggedIn }) {
+    const navigate = useNavigate();
     return (
         <div className="bg-black text-gray-300 min-h-screen pb-16">
             <div className="max-w-4xl mx-auto px-6 pt-14">
@@ -8,12 +12,15 @@ export default function Account() {
                 <div className="flex justify-between items-start mb-10">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white">Your Account</h1>
                     <div className="flex gap-8 pt-3">
-                        <Link to="/signup" className="text-xl font-bold text-gray-400 hover:text-white transition">
-                            Sign up
-                        </Link>
-                        <Link to="/login" className="text-xl font-bold text-gray-400 hover:text-white transition">
-                            Log In
-                        </Link>
+                        <button
+                            className="text-xl font-bold text-gray-400 hover:text-white transition"
+                            onClick={() => {
+                                navigate("/");
+                                isLoggedIn(false);
+                            }}
+                        >
+                            Log Out
+                        </button>
                     </div>
                 </div>
                 {/* Main info */}
