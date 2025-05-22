@@ -1,4 +1,9 @@
+import { useEffect } from 'react';
+
 export default function About() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     return (
         <div className="bg-black text-gray-300 min-h-screen pb-16">
             <div className="max-w-4xl mx-auto px-6 pt-16">

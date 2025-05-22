@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import {Link, useNavigate} from "react-router-dom";
 
@@ -8,6 +8,10 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

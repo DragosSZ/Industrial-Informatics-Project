@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 
 export default function MealPlanning() {
+    React.useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
     const [meals, setMeals] = useState([
       [
         { name: "Oats", kcal: 300, protein: "10", carbs: "50", fat: "5", weight: "100" },
@@ -15,11 +18,11 @@ export default function MealPlanning() {
       setMeals([...meals, []]);
     };
 
-    const handleAddNew = () => {
+    /*const handleAddNew = () => {
       setFormData({ name: "", weight: "", kcal: "", protein: "", carbs: "", fat: "" });
       setIsAdding(true);
       setEditingIndex(null);
-    };
+    };*/
 
     const handleFormChange = (e) => {
       const { name, value } = e.target;
