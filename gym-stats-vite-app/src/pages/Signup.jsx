@@ -36,8 +36,8 @@ export default function SignUp() {
     };
 
     return (
-        <div className="bg-black text-gray-300 min-h-screen pb-16">
-            <div className="max-w-2xl mx-auto px-6 pt-16">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-black to-purple-600 text-gray-300 m-0 p-0">
+            <div className="bg-white/10 via-white/5 backdrop-blur-xl border border-white/20 p-10 rounded-lg shadow-lg w-full max-w-3xl mx-auto px-4 md:px-12">
                 <h1 className="text-4xl md:text-5xl font-extrabold text-white text-center mb-10">Sign up</h1>
                 <form className="space-y-4" onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -68,7 +68,7 @@ export default function SignUp() {
                     {error && <p className="text-red-500 text-sm">{error}</p>}
                     <button
                         type="submit"
-                        className="w-full mt-6 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded font-bold text-lg transition"
+                        className="w-full mt-6 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 rounded-xl font-bold text-lg transition duration-200 transform hover:scale-102"
                     >
                         Sign up
                     </button>

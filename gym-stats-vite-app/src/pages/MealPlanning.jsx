@@ -71,8 +71,11 @@ export default function MealPlanning() {
     };
 
     return (
-        <div className="min-h-screen bg-neutral-900 text-white p-6">
-            <h1 className="text-2xl font-bold mb-4">Nutrition Plan</h1>
+        <div className="min-h-screen bg-gradient-to-br from-black via-black to-purple-600 text-white flex justify-center items-center p-6">
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg shadow-lg w-full max-w-6xl p-6">
+            <h1 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text mb-4">
+              Nutrition Plan
+            </h1>
             <div className="flex flex-col md:flex-row md:justify-between items-center gap-4 mb-6">
                 <div className="flex flex-col gap-4 w-full">
                   {Object.entries(totalMacros).map(([label, { value, goal, color }]) => {
@@ -159,7 +162,12 @@ export default function MealPlanning() {
               ))}
             </div>
             <div className="text-center mt-4">
-              <button onClick={handleAddMeal} className="px-4 py-2 bg-green-600 rounded">+ Add Meal</button>
+              <button
+                onClick={handleAddMeal}
+                className="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-3 rounded-xl shadow-lg transition duration-200 transform hover:scale-105 font-semibold"
+              >
+                + Add Meal
+              </button>
             </div>
             {(editingIndex !== null || isAdding) && (
               <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -220,6 +228,7 @@ export default function MealPlanning() {
                 </div>
               </div>
             )}
+          </div>
         </div>
     );
 }

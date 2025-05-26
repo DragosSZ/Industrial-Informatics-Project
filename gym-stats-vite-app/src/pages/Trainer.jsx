@@ -24,7 +24,7 @@ export default function Trainer() {
     const [selectedTrainer, setSelectedTrainer] = useState(null);
 
     return (
-        <div className="min-h-screen bg-black text-white flex flex-col">
+        <div className="min-h-screen bg-gradient-to-br from-black via-black to-purple-600 text-white flex flex-col">
             {/* Header */}
             <div
                 className="relative h-64 flex items-center justify-center"
@@ -44,32 +44,34 @@ export default function Trainer() {
             </div>
 
             {/* Trainers grid */}
-            <div className="flex-1 max-w-4xl mx-auto py-10 w-full">
-                <h2 className="text-2xl font-bold mb-8">Choose your trainer</h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-                    {trainers.map((trainer) => (
-                        <button
-                            key={trainer.id}
-                            className={`flex flex-col items-center focus:outline-none transition-all ${
-                                selectedTrainer?.id === trainer.id
-                                    ? "scale-105 ring-4 ring-blue-500"
-                                    : "hover:scale-105"
-                            }`}
-                            onClick={() => setSelectedTrainer(trainer)}
-                        >
-                            <img
-                                src={trainer.photo}
-                                alt={trainer.name}
-                                className="w-28 h-28 rounded-full border-4 border-gray-800 shadow-lg object-cover"
-                            />
-                            <span
-                                className="mt-4 text-lg text-white"
-                                style={{ textDecoration: "none" }}
+            <div className="flex-1 w-full flex justify-center items-center py-12">
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg shadow-lg px-8 py-10 w-full max-w-5xl">
+                    <h2 className="text-2xl font-bold mb-8">Choose your trainer</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+                        {trainers.map((trainer) => (
+                            <button
+                                key={trainer.id}
+                                className={`flex flex-col items-center focus:outline-none transition-all ${
+                                    selectedTrainer?.id === trainer.id
+                                        ? "scale-105 ring-4 ring-blue-500"
+                                        : "hover:scale-105"
+                                }`}
+                                onClick={() => setSelectedTrainer(trainer)}
                             >
-                {trainer.name}
-                </span>
-                        </button>
-                    ))}
+                                <img
+                                    src={trainer.photo}
+                                    alt={trainer.name}
+                                    className="w-28 h-28 rounded-full border-4 border-gray-800 shadow-lg object-cover"
+                                />
+                                <span
+                                    className="mt-4 text-lg text-white"
+                                    style={{ textDecoration: "none" }}
+                                >
+                                    {trainer.name}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
 

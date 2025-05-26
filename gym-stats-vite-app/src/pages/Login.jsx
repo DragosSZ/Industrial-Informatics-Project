@@ -48,9 +48,14 @@ export default function Login() {
     };
 
     return (
-        <div className="bg-black text-gray-300 min-h-screen pb-16">
-            <div className="max-w-md mx-auto px-6 pt-20">
-                <h1 className="text-4xl md:text-5xl font-extrabold text-white text-center mb-10">Log in</h1>
+        <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-black via-black to-purple-600">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-10 rounded-lg shadow-lg max-w-xl w-full text-white flex flex-col gap-6">
+                <div className="text-5xl leading-tight font-bold text-center">
+                    Welcome Back!
+                </div>
+                <p className="text-xl font-normal text-center">
+                    We're excited to see you again. Log in to continue your fitness journey.
+                </p>
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     <div>
                         <label className="block text-sm mb-1">Email address</label>
@@ -75,14 +80,17 @@ export default function Login() {
                     {error && <p className="text-red-500 text-sm">{error}</p>}
                     <button
                         type="submit"
-                        className="w-full mt-4 bg-orange-500 text-white py-3 rounded font-bold text-lg hover:bg-orange-600 transition"
+                        className="w-full mt-6 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 rounded-xl font-bold text-lg transition duration-200 transform hover:scale-102"
                     >
                         Log In
                     </button>
                 </form>
                 <div className="mt-6 text-center text-sm text-gray-400">
                     Don't have an account?{" "}
-                    <Link to="/signup" className="text-orange-400 hover:underline">
+                    <Link
+                        to="/signup"
+                        className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent font-semibold hover:underline"
+                    >
                         Sign up here
                     </Link>
                 </div>

@@ -42,7 +42,7 @@ export default function Clients() {
   };
 
   return (
-    <div className="p-6 text-white bg-neutral-900 min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-black via-black to-purple-600 text-white flex items-center justify-center p-6">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Trainer Clients</h1>
         <button
@@ -134,7 +134,7 @@ export default function Clients() {
         </div>
       )}
 
-      <div className="space-y-4">
+      <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg shadow-lg w-full max-w-6xl p-6 mx-auto space-y-4">
         {clients.map((client) => (
           <div key={client.id} className="bg-neutral-800 p-4 rounded">
             <div className="flex justify-between items-center">

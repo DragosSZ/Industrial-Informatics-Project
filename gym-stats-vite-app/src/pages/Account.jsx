@@ -45,8 +45,8 @@ export default function Account() {
     }
 
     return (
-        <div className="bg-black text-gray-300 min-h-screen pb-16">
-            <div className="max-w-4xl mx-auto px-6 pt-14">
+        <div className="bg-gradient-to-br from-black via-black to-purple-600 text-gray-300 min-h-screen pb-16 flex items-center justify-center">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg shadow-lg max-w-6xl w-full px-6 py-12 mx-auto mt-24">
                 {/* Top: Title and sign up/login */}
                 <div className="flex justify-between items-start mb-10">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white">Your Account</h1>

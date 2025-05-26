@@ -11,7 +11,7 @@ export function getAuthStatus() {
             isTrainer: decoded.role === "trainer",
             userId: decoded.sub
         };
-    } catch (e) {
+    } catch {
         return { isLoggedIn: false, isTrainer: false };
     }
 }
