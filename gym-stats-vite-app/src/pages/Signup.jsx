@@ -59,15 +59,23 @@ export default function SignUp() {
                         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="w-full p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400" />
                     </div>
                     <div>
-                        <label className="block text-sm mb-1">Role</label>
-                        <select
-                            value={role}
-                            onChange={(e) => setRole(e.target.value)}
-                            className="w-full p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option value="trainee">Trainee</option>
-                            <option value="trainer">Trainer</option>
-                        </select>
+                      <label className="block text-sm mb-1">Role</label>
+                      <div className="flex gap-4">
+                        {["trainee", "trainer"].map((option) => (
+                          <button
+                            key={option}
+                            type="button"
+                            onClick={() => setRole(option)}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-xl w-full justify-center transition border shadow-md ${
+                              role === option
+                                ? "bg-gradient-to-r from-blue-500 to-purple-600 border-white/20 text-white"
+                                : "bg-gradient-to-r from-neutral-800 to-neutral-900 border-white/20 text-gray-400"
+                            }`}
+                          >
+                            {option.charAt(0).toUpperCase() + option.slice(1)}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                     {error && <p className="text-red-500 text-sm">{error}</p>}
                     <button
