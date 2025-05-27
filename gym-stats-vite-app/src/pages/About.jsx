@@ -19,22 +19,41 @@ export default function About() {
                     <form className="mb-16 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm mb-1">First name</label>
-                            <input type="text" placeholder="Name" className="w-full p-3 bg-neutral-800 text-gray-200 rounded border border-gray-500" />
+                            <input
+                                type="text"
+                                placeholder="Name"
+                                className="w-full p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
+                            />
                         </div>
                         <div>
                             <label className="block text-sm mb-1">Last name</label>
-                            <input type="text" placeholder="Surname" className="w-full p-3 bg-neutral-800 text-gray-200 rounded border border-gray-500" />
+                            <input
+                                type="text"
+                                placeholder="Surname"
+                                className="w-full p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
+                            />
                         </div>
                         <div className="md:col-span-2">
                             <label className="block text-sm mb-1">Email address</label>
-                            <input type="email" placeholder="Email" className="w-full p-3 bg-neutral-800 text-gray-200 rounded border border-gray-500" />
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                className="w-full p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
+                            />
                         </div>
                         <div className="md:col-span-2">
                             <label className="block text-sm mb-1">Your message</label>
-                            <textarea placeholder="Your message" rows={4} className="w-full p-3 bg-neutral-800 text-gray-200 rounded border border-gray-500"></textarea>
+                            <textarea
+                                placeholder="Your message"
+                                rows={4}
+                                className="w-full p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
+                            ></textarea>
                         </div>
                         <div className="md:col-span-2">
-                            <button type="submit" className="w-full p-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded">
+                            <button
+                                type="submit"
+                                className="w-full p-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-xl transition duration-200 transform hover:scale-102 shadow-xl ring-1 ring-white/10"
+                            >
                                 Submit
                             </button>
                         </div>

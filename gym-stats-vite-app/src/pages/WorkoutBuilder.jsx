@@ -90,18 +90,18 @@ export default function WorkoutBuilder() {
       <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg shadow-lg w-full max-w-6xl p-6">
         <h1 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text mb-4">Workout Tracker</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mb-6 bg-neutral-800 p-6 rounded-xl shadow-lg ring-1 ring-neutral-700">
+        <form onSubmit={handleSubmit} className="space-y-4 mb-6 bg-gradient-to-br from-neutral-800/80 to-neutral-900/80 p-6 rounded-xl shadow-xl ring-1 ring-white/10">
           <div className="flex gap-6">
-            <div className="flex-1 flex flex-col items-center shadow rounded-md p-3 bg-neutral-800/60">
+            <div className="flex-1 flex flex-col items-center">
               <label className="block mb-1 text-sm font-semibold text-white">Date</label>
               <input
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full p-3 bg-neutral-900 rounded shadow-md ring-1 ring-blue-500 focus:ring-purple-500 text-white"
+                className="w-full p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
               />
             </div>
-            <div className="flex-1 flex flex-col items-center shadow rounded-md p-3 bg-neutral-800/60">
+            <div className="flex-1 flex flex-col items-center">
               <label className="block mb-1 text-sm font-semibold text-white">Exercise</label>
               <input
                 type="text"
@@ -109,12 +109,12 @@ export default function WorkoutBuilder() {
                 onChange={(e) => setExercise(e.target.value)}
                 placeholder="e.g. Squat"
                 required
-                className="w-full p-3 bg-neutral-900 rounded shadow-md ring-1 ring-blue-500 focus:ring-purple-500 text-white"
+                className="w-full p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
               />
             </div>
           </div>
           <div className="flex gap-6">
-            <div className="flex-1 flex flex-col items-center shadow rounded-md p-3 bg-neutral-800/60">
+            <div className="flex-1 flex flex-col items-center">
               <label className="block mb-1 text-sm font-semibold text-white">Sets</label>
               <div className="flex items-center gap-2 justify-center">
                 <button type="button" onClick={() => setSets(s => Math.max(0, parseInt(s || 0) - 1))} className="text-xl bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded shadow transition">−</button>
@@ -122,12 +122,12 @@ export default function WorkoutBuilder() {
                   type="number"
                   value={sets}
                   onChange={(e) => setSets(e.target.value)}
-                  className="w-20 p-3 bg-neutral-900 rounded shadow-md ring-1 ring-blue-500 focus:ring-purple-500 text-white text-center appearance-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none text-lg"
+                  className="w-20 p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400 text-center appearance-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none text-lg"
                 />
                 <button type="button" onClick={() => setSets(s => parseInt(s || 0) + 1)} className="text-xl bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded shadow transition">+</button>
               </div>
             </div>
-            <div className="flex-1 flex flex-col items-center shadow rounded-md p-3 bg-neutral-800/60">
+            <div className="flex-1 flex flex-col items-center">
               <label className="block mb-1 text-sm font-semibold text-white">Reps</label>
               <div className="flex items-center gap-2 justify-center">
                 <button type="button" onClick={() => setReps(r => Math.max(0, parseInt(r || 0) - 2))} className="text-xl bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded shadow transition">−</button>
@@ -135,12 +135,12 @@ export default function WorkoutBuilder() {
                   type="number"
                   value={reps}
                   onChange={(e) => setReps(e.target.value)}
-                  className="w-20 p-3 bg-neutral-900 rounded shadow-md ring-1 ring-blue-500 focus:ring-purple-500 text-white text-center appearance-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none text-lg"
+                  className="w-20 p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400 text-center appearance-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none text-lg"
                 />
                 <button type="button" onClick={() => setReps(r => (parseInt(r || 0) + 2))} className="text-xl bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded shadow transition">+</button>
               </div>
             </div>
-            <div className="flex-1 flex flex-col items-center shadow rounded-md p-3 bg-neutral-800/60">
+            <div className="flex-1 flex flex-col items-center">
               <label className="block mb-1 text-sm font-semibold text-white">Weight (kg)</label>
               <div className="flex items-center gap-2 justify-center">
                 <button type="button" onClick={() => setWeight(w => Math.max(0, parseFloat(w || 0) - 1))} className="text-xl bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded shadow transition">−</button>
@@ -148,13 +148,13 @@ export default function WorkoutBuilder() {
                   type="number"
                   value={weight}
                   onChange={(e) => setWeight(e.target.value)}
-                  className="w-20 p-3 bg-neutral-900 rounded shadow-md ring-1 ring-blue-500 focus:ring-purple-500 text-white text-center appearance-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none text-lg"
+                  className="w-20 p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400 text-center appearance-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none text-lg"
                 />
                 <button type="button" onClick={() => setWeight(w => parseFloat(w || 0) + 1)} className="text-xl bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded shadow transition">+</button>
               </div>
             </div>
           </div>
-          <button type="submit" className="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-3 rounded-xl shadow-lg transition duration-200 transform hover:scale-105 font-semibold">
+          <button type="submit" className="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-3 rounded-xl shadow-xl ring-1 ring-white/10 transition duration-200 transform hover:scale-102 font-semibold">
             {editingIndex !== null ? 'Update Entry' : 'Add Entry'}
           </button>
         </form>
@@ -175,13 +175,43 @@ export default function WorkoutBuilder() {
           ))}
         </div>
 
-        <div className="bg-neutral-800 p-6 rounded-xl shadow-lg ring-1 ring-neutral-700">
-          <Line data={data} />
+        <div className="resize overflow-auto bg-gradient-to-br from-neutral-800/80 to-neutral-900/80 p-4 rounded-xl shadow-md ring-1 ring-white/10 min-h-[435px] max-h-[80vh] w-[90%] max-w-[calc(100%-2rem)] min-w-[300px] mx-auto">
+          <div className="h-[400px]">
+            <Line data={data} options={{
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false
+                }
+              },
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: 'Date'
+                  },
+                  ticks: {
+                    autoSkip: true,
+                    maxRotation: 0,
+                    minRotation: 0
+                  }
+                },
+                y: {
+                  title: {
+                    display: true,
+                    text: 'Total Volume (kg)'
+                  },
+                  beginAtZero: true
+                }
+              }
+            }} />
+          </div>
         </div>
 
         <ul className="mt-6 space-y-2 divide-y divide-neutral-700">
           {filteredEntries.map((entry, index) => (
-            <li key={index} className="flex flex-col bg-neutral-800 p-3 rounded hover:bg-neutral-700/40 transition">
+            <li key={index} className="flex flex-col bg-gradient-to-r from-neutral-800/80 to-neutral-900/80 p-3 rounded-xl ring-1 ring-white/10 shadow hover:bg-neutral-700/40 transition">
               <div className="flex justify-between items-center">
                 <span>{entry.date} - {entry.exercise} ({entry.sets}x{entry.reps} @ {entry.weight}kg)</span>
                 <div className="flex gap-2 text-sm">

@@ -102,6 +102,40 @@ export default function ProgressTracker() {
     ]
   };
 
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      }
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Date'
+        },
+        ticks: {
+          autoSkip: true,
+          maxRotation: 0,
+          minRotation: 0
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Weight (kg)'
+        },
+        min: 10,
+        max: 100,
+        ticks: {
+          stepSize: 10
+        }
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-black to-purple-600 text-white flex items-center justify-center px-6 pt-12 pb-6">
       <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg shadow-lg w-full max-w-6xl p-6">
@@ -109,14 +143,14 @@ export default function ProgressTracker() {
           Progress Tracker
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mb-6 bg-neutral-800 p-6 rounded-xl shadow-lg ring-1 ring-neutral-700">
+        <form onSubmit={handleSubmit} className="space-y-4 mb-6 bg-gradient-to-br from-neutral-800/80 to-neutral-900/80 p-6 rounded-xl shadow-xl ring-1 ring-white/10">
           <div>
             <label className="block mb-1 text-sm">Date</label>
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full p-3 bg-neutral-900 rounded shadow-md ring-1 ring-blue-500 focus:ring-purple-500 text-white"
+              className="w-full p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
             />
           </div>
           <div>
@@ -127,25 +161,30 @@ export default function ProgressTracker() {
               onChange={(e) => setWeight(e.target.value)}
               placeholder="Enter weight in kg"
               required
-              className="w-full p-3 bg-neutral-900 rounded shadow-md ring-1 ring-blue-500 focus:ring-purple-500 text-white"
+              className="w-full p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
             />
           </div>
           <div>
             <label className="block mb-1 text-sm">Photos (optional, up to 6)</label>
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={(e) => {
-                const selected = Array.from(e.target.files).slice(0, 6);
-                setPhotos(selected.length > 0 ? selected : photos);
-              }}
-              className="w-full p-3 bg-neutral-900 rounded shadow-md ring-1 ring-blue-500 focus:ring-purple-500 text-white"
-            />
+            <label className="block w-full cursor-pointer">
+              <div className="w-fit px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl shadow-md ring-1 ring-white/10 hover:from-blue-600 hover:to-purple-700 transition">
+                Choose Photos (Max 6)
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={(e) => {
+                  const selected = Array.from(e.target.files).slice(0, 6);
+                  setPhotos(selected.length > 0 ? selected : photos);
+                }}
+                className="hidden"
+              />
+            </label>
           </div>
           <button
             type="submit"
-            className="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-3 rounded-xl shadow-lg transition duration-200 transform hover:scale-105 font-semibold"
+            className="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-3 rounded-xl shadow-xl ring-1 ring-white/10 transition duration-200 transform hover:scale-105 font-semibold"
           >
             {editingIndex !== null ? 'Update Entry' : 'Add Entry'}
           </button>
@@ -167,8 +206,12 @@ export default function ProgressTracker() {
           ))}
         </div>
 
-        <div className="bg-neutral-800 p-4 rounded">
-          <Line data={data} />
+        <div className="relative w-full flex justify-center">
+          <div className="resize overflow-auto bg-gradient-to-br from-neutral-800/80 to-neutral-900/80 p-4 rounded-xl shadow-md ring-1 ring-white/10 min-h-[435px] max-h-[80vh] w-[90%] max-w-[calc(100%-2rem)] min-w-[300px] mx-auto">
+            <div className="h-[400px]">
+              <Line data={data} options={options} />
+            </div>
+          </div>
         </div>
 
         <ul className="mt-6 space-y-2">

@@ -62,7 +62,7 @@ export default function Login() {
                         <input
                             type="email"
                             placeholder="Email"
-                            className="w-full p-3 bg-neutral-800 text-gray-200 rounded border border-gray-500"
+                            className="w-full p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
@@ -72,7 +72,7 @@ export default function Login() {
                         <input
                             type="password"
                             placeholder="Password"
-                            className="w-full p-3 bg-neutral-800 text-gray-200 rounded border border-gray-500"
+                            className="w-full p-3 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white rounded-xl border border-white/20 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
@@ -80,7 +80,7 @@ export default function Login() {
                     {error && <p className="text-red-500 text-sm">{error}</p>}
                     <button
                         type="submit"
-                        className="w-full mt-6 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 rounded-xl font-bold text-lg transition duration-200 transform hover:scale-102"
+                        className="w-full mt-6 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 rounded-xl font-bold text-lg transition duration-200 transform hover:scale-102 shadow-xl ring-1 ring-white/10"
                     >
                         Log In
                     </button>
