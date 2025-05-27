@@ -24,18 +24,23 @@ export default function Trainer() {
     const [selectedTrainer, setSelectedTrainer] = useState(null);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-black via-black to-purple-600 text-white flex flex-col">
+        <div
+          className="min-h-screen text-white flex flex-col"
+          style={{
+            backgroundImage: `linear-gradient(to bottom right, #000000, #000000, #3b0764)`,
+          }}
+        >
             {/* Header */}
             <div
-                className="relative h-64 flex items-center justify-center"
+                className="relative h-44 md:h-52 flex items-center justify-center"
                 style={{
                     backgroundImage: `url(${bgUrl})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                 }}
             >
-                <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-                <div className="relative z-10 text-center">
+                {/* <div className="absolute inset-0 bg-black bg-opacity-60"></div> */}
+                <div className="relative z-10 text-center py-4">
                     <h1 className="text-4xl font-extrabold mb-4">The Best Trainers in Your Town</h1>
                     <p className="text-lg font-medium text-gray-200">
                         Ready to help jumpstart your fitness journey!
@@ -44,16 +49,16 @@ export default function Trainer() {
             </div>
 
             {/* Trainers grid */}
-            <div className="flex-1 w-full flex justify-center items-center py-12">
-                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg shadow-lg px-8 py-10 w-full max-w-5xl">
+            <div className="w-full flex justify-center items-start py-6 -mt-16">
+                <div className="bg-gradient-to-br from-neutral-800/60 to-neutral-900/60 backdrop-blur-lg border border-white/20 rounded-xl shadow-xl px-8 py-10 w-full max-w-6xl">
                     <h2 className="text-2xl font-bold mb-8">Choose your trainer</h2>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
                         {trainers.map((trainer) => (
                             <button
                                 key={trainer.id}
-                                className={`flex flex-col items-center focus:outline-none transition-all ${
+                                className={`flex flex-col items-center focus:outline-none transition-all duration-300 ease-in-out ${
                                     selectedTrainer?.id === trainer.id
-                                        ? "scale-105 ring-4 ring-blue-500"
+                                        ? "scale-105"
                                         : "hover:scale-105"
                                 }`}
                                 onClick={() => setSelectedTrainer(trainer)}
@@ -77,7 +82,7 @@ export default function Trainer() {
 
             {/* Bottom bar */}
             {selectedTrainer && (
-                <div className="fixed bottom-0 left-0 w-full bg-gray-900 shadow-2xl border-t border-gray-700 p-4 flex flex-col sm:flex-row items-center justify-between z-50">
+                <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white/10 backdrop-blur-lg border border-white/20 shadow-2xl p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between z-50 w-[95%] max-w-4xl">
           <span className="mb-2 sm:mb-0 flex items-center">
             Ready to start your journey with
             <img
@@ -90,13 +95,13 @@ export default function Trainer() {
            </span>
                     <div className="flex space-x-4">
                         <button
-                            className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600 transition"
+                            className="px-4 py-2 bg-neutral-700/80 hover:bg-neutral-600/80 text-white rounded-xl transition"
                             onClick={() => setSelectedTrainer(null)}
                         >
                             Go Back
                         </button>
                         <button
-                            className="px-4 py-2 bg-blue-600 rounded text-white font-semibold hover:bg-blue-700 transition"
+                            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-xl transition duration-200 transform hover:scale-102 shadow-lg ring-1 ring-white/10"
                             onClick={() => alert(`You chose ${selectedTrainer.name}!`)}
                         >
                             Yes

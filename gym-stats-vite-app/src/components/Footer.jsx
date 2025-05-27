@@ -1,7 +1,8 @@
 export default function Footer() {
     return (
-        <footer className="bg-black text-gray-400 py-10 px-4">
-            <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-8 items-start">
+        <footer className="bg-black backdrop-blur-md w-full px-6 py-8 text-gray-400">
+            <div className="bg-gradient-to-br from-neutral-900/80 to-black/70 backdrop-blur-md border border-white/10 rounded-xl shadow-md p-6 max-w-6xl mx-auto">
+                <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-8 items-start">
                 <div>
                     <h2 className="text-white font-extrabold text-2xl mb-4">Gym Stats</h2>
                     <p className="text-sm mb-4">Your ultimate fitness companion. Track, plan, and improve every day.</p>
@@ -54,7 +55,8 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <div className="mt-10 border-t border-gray-700 pt-6 text-sm text-center text-gray-500">
+            </div>
+            <div className="mt-10 border-t border-white/10 pt-6 text-sm text-center text-gray-400">
                 &copy; {new Date().getFullYear()} Gym Stats. All rights reserved.
             </div>
         </footer>
