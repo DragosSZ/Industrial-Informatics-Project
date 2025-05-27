@@ -11,7 +11,7 @@ export default function Landing() {
   };
   return (
       <>
-        <div className="relative w-screen h-[70vh] md:h-[85vh] flex items-center justify-center overflow-hidden pb-16">
+        <div className="relative w-full h-[70vh] md:h-[85vh] flex items-center justify-center overflow-hidden pb-16">
           {/* Background Image */}
           <img
               src="/src/assets/main.jpg"

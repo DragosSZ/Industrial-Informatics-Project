@@ -15,7 +15,6 @@ import WorkoutBuilder from '../pages/WorkoutBuilder';
 
 export default function AppRouter() {
     const { isLoggedIn, isTrainer } = useContext(AuthContext);
-
     return (
         <Routes>
             <Route path="/" element={<Landing />} />
