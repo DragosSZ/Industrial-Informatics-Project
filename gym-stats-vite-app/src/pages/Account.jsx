@@ -38,6 +38,7 @@ export default function Account() {
                     isTrainer: data.role === "trainer",
                     userId: data._id,
                 }));
+                localStorage.setItem("user", JSON.stringify(data));
                 setLoading(false);
             })
             .catch((err) => {
@@ -80,6 +81,13 @@ export default function Account() {
                                         height: parseFloat(userData.height) || 0,
                                         pictureUrls: userData.avatarUrl ? [userData.avatarUrl] : [],
                                         dateOfBirth: new Date(userData.dateOfBirth).toISOString(),
+                                        trainer: userData.trainer
+                                            ? {
+                                                id: userData.trainer.id || "",
+                                                name: userData.trainer.name || "",
+                                                avatarUrl: userData.trainer.avatarUrl || ""
+                                            }
+                                            : null
                                     }),
                                 })
                                     .then((res) => {
@@ -208,7 +216,11 @@ export default function Account() {
                     {/* Avatar with upload */}
                     <div className="flex-shrink-0 flex flex-col items-center">
                         <img
-                            src={userData?.pictureUrls?.[0] || "https://i.imgur.com/WPZ8b9k.png"}
+                            src={userData?.pictureUrls?.[0] || "/images/default-avatar.png"}
+                            onError={(e) => {
+                                e.currentTarget.onerror = null;
+                                e.currentTarget.src = "/images/default-avatar.png";
+                            }}
                             alt="avatar"
                             className="w-60 h-60 md:w-72 md:h-72 rounded-2xl object-cover bg-gray-700 mb-4"
                         />
@@ -251,11 +263,18 @@ export default function Account() {
                     <h2 className="text-2xl font-bold text-white mb-3">Your Trainer</h2>
                     <div className="flex items-center gap-5">
                         <img
-                            src={userData?.trainer?.avatarUrl || "https://i.imgur.com/WPZ8b9k.png"}
+                            src={userData?.trainer?.avatarUrl || "/images/default-avatar.png"}
+                            onError={(e) => {
+                                e.currentTarget.onerror = null;
+                                e.currentTarget.src = "/images/default-avatar.png";
+                            }}
                             alt="trainer avatar"
                             className="w-20 h-20 rounded-full object-cover bg-gray-700"
                         />
-                        <span className="text-xl font-semibold text-gray-300 italic">{userData?.trainer?.name || "*name*"}</span>
+                        <span className="text-xl font-semibold text-gray-300 italic">
+                            {userData?.trainer?.name || "*name*"}
+                            <span className="ml-2 text-xs text-gray-400">{userData?.trainer?.id ? `(id: ${userData.trainer.id})` : ""}</span>
+                        </span>
                     </div>
                 </div>
             </div>

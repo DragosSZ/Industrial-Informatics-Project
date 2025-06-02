@@ -1,26 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "/Users/dragosszilagyi/WebstormProjects/Industrial-Informatics-Project/gym-stats-backend/gym-stats-backend.csproj": {}
+    "/Users/darius/Library/Mobile Documents/com~apple~CloudDocs/School/Industrial-Informatics-Project/gym-stats-backend/gym-stats-backend.csproj": {}
   },
   "projects": {
-    "/Users/dragosszilagyi/WebstormProjects/Industrial-Informatics-Project/gym-stats-backend/gym-stats-backend.csproj": {
+    "/Users/darius/Library/Mobile Documents/com~apple~CloudDocs/School/Industrial-Informatics-Project/gym-stats-backend/gym-stats-backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/dragosszilagyi/WebstormProjects/Industrial-Informatics-Project/gym-stats-backend/gym-stats-backend.csproj",
+        "projectUniqueName": "/Users/darius/Library/Mobile Documents/com~apple~CloudDocs/School/Industrial-Informatics-Project/gym-stats-backend/gym-stats-backend.csproj",
         "projectName": "gym-stats-backend",
-        "projectPath": "/Users/dragosszilagyi/WebstormProjects/Industrial-Informatics-Project/gym-stats-backend/gym-stats-backend.csproj",
-        "packagesPath": "/Users/dragosszilagyi/.nuget/packages/",
-        "outputPath": "/Users/dragosszilagyi/WebstormProjects/Industrial-Informatics-Project/gym-stats-backend/obj/",
+        "projectPath": "/Users/darius/Library/Mobile Documents/com~apple~CloudDocs/School/Industrial-Informatics-Project/gym-stats-backend/gym-stats-backend.csproj",
+        "packagesPath": "/Users/darius/.nuget/packages/",
+        "outputPath": "/Users/darius/Library/Mobile Documents/com~apple~CloudDocs/School/Industrial-Informatics-Project/gym-stats-backend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/dragosszilagyi/.nuget/NuGet/NuGet.Config"
+          "/Users/darius/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
+          "/opt/homebrew/Cellar/dotnet/9.0.3/libexec/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -39,7 +39,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -97,7 +97,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet/9.0.3/libexec/sdk/9.0.104/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

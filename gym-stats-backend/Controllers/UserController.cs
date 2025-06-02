@@ -15,6 +15,7 @@ public class UserUpdateDto
     public float height { get; set; }
     public List<string> pictureUrls { get; set; } = new();
     public DateTime dateOfBirth { get; set; }
+    public Trainer trainer { get; set; }
 }
 
 namespace gym_stats_backend.Controllers
@@ -79,7 +80,8 @@ namespace gym_stats_backend.Controllers
                 .Set(u => u.weight, updatedUser.weight)
                 .Set(u => u.height, updatedUser.height)
                 .Set(u => u.pictureUrls, updatedUser.pictureUrls)
-                .Set(u => u.dateOfBirth, updatedUser.dateOfBirth.ToString("yyyy-MM-dd"));
+                .Set(u => u.dateOfBirth, updatedUser.dateOfBirth.ToString("yyyy-MM-dd"))
+                .Set(u => u.trainer, updatedUser.trainer);
 
             var result = await _users.UpdateOneAsync(u => u.id == userId, update);
 
