@@ -3,8 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Header() {
-    const auth = useContext(AuthContext);
-    const { isLoggedIn, isTrainer, setAuth } = auth;
+    const { isLoggedIn, isTrainer, setAuth } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -20,7 +19,7 @@ export default function Header() {
         { name: "About", path: "/about" },
         ...(isLoggedIn ? [{ name: "Account", path: "/account" }] : [{ name: "Login", path: "/login" }]),
     ];
-    console.log("Auth context:", auth);
+    console.log("Auth context:", { isLoggedIn, isTrainer });
 
     return (
         <header className="bg-gradient-to-br from-purple-700 to-black text-white px-6 py-4 border-b border-white/10 shadow-md">
@@ -45,7 +44,13 @@ export default function Header() {
                         <button
                             onClick={() => {
                                 localStorage.removeItem("token");
-                                setAuth({ isLoggedIn: false, isTrainer: false, userId: null });
+                                setAuth({
+                                    isLoggedIn: false,
+                                    isTrainer: false,
+                                    userId: null,
+                                    token: null,
+                                    user: null
+                                });
                                 navigate("/");
                             }}
                             className="ml-4 rounded-xl px-6 py-2 font-semibold bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white transition duration-200 transform hover:scale-105 shadow"

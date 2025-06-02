@@ -29,14 +29,19 @@ export default function Account() {
             })
             .then((data) => {
                 setUserData(data);
-                setAuth({ user: data, token });
+                setAuth((prev) => ({
+                    ...prev,
+                    user: data,
+                    token,
+                    isLoggedIn: true,
+                    isTrainer: data.role === "trainer",
+                    userId: data._id,
+                }));
                 setLoading(false);
             })
-            .catch(() => {
-                setAuth(null);
-                localStorage.removeItem("token");
+            .catch((err) => {
+                console.error("Failed to fetch user data:", err);
                 setLoading(false);
-                navigate("/login", { replace: true });
             });
     }, [navigate, setAuth]);
 
@@ -50,18 +55,6 @@ export default function Account() {
                 {/* Top: Title and sign up/login */}
                 <div className="flex justify-between items-start mb-10">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white">Your Account</h1>
-                    <div className="flex gap-8 pt-3">
-                        <button
-                            className="text-xl font-bold text-gray-400 hover:text-white transition"
-                            onClick={() => {
-                                localStorage.removeItem("token");
-                                setAuth(null);
-                                navigate("/");
-                            }}
-                        >
-                            Log Out
-                        </button>
-                    </div>
                 </div>
                 {/* Main info */}
                 <div className="flex flex-col md:flex-row gap-10 mb-14">

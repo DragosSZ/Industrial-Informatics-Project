@@ -22,6 +22,7 @@ const bgUrl = "/trainer-bg.jpg"; // Use your public folder for static background
 
 export default function Trainer() {
     const [selectedTrainer, setSelectedTrainer] = useState(null);
+    const [confirmedTrainer, setConfirmedTrainer] = useState(null);
 
     return (
         <div
@@ -54,8 +55,8 @@ export default function Trainer() {
                     <h2 className="text-2xl font-bold mb-8">Choose your trainer</h2>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
                         {trainers.map((trainer) => (
+                          <div key={trainer.id} className="relative flex flex-col items-center">
                             <button
-                                key={trainer.id}
                                 className={`flex flex-col items-center focus:outline-none transition-all duration-300 ease-in-out ${
                                     selectedTrainer?.id === trainer.id
                                         ? "scale-105"
@@ -75,40 +76,70 @@ export default function Trainer() {
                                     {trainer.name}
                                 </span>
                             </button>
+                          </div>
                         ))}
                     </div>
                 </div>
             </div>
 
-            {/* Bottom bar */}
-            {selectedTrainer && (
-                <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white/10 backdrop-blur-lg border border-white/20 shadow-2xl p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between z-50 w-[95%] max-w-4xl">
-          <span className="mb-2 sm:mb-0 flex items-center">
-            Ready to start your journey with
-            <img
-                src={selectedTrainer.photo}
-                alt={selectedTrainer.name}
-                className="w-8 h-8 rounded-full ml-2 mr-2 object-cover"
-                style={{ display: "inline-block" }}
-            />
-            <span className="font-bold text-blue-400">{selectedTrainer.name}</span>?
-           </span>
-                    <div className="flex space-x-4">
+            {(selectedTrainer || confirmedTrainer) && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 shadow-2xl p-6 rounded-2xl w-80 text-white">
+                  {confirmedTrainer ? (
+                    <>
+                      <img
+                        src={confirmedTrainer.photo}
+                        alt={confirmedTrainer.name}
+                        className="w-24 h-24 rounded-full border-4 border-gray-700 mx-auto mb-4 object-cover"
+                      />
+                      <p className="text-center mb-4 text-xl font-semibold">
+                        🎉 Congrats on starting your adventure with{" "}
+                        <span className="font-bold text-blue-400">{confirmedTrainer.name}</span>!
+                      </p>
+                      <div className="flex justify-center">
                         <button
-                            className="px-4 py-2 bg-neutral-700/80 hover:bg-neutral-600/80 text-white rounded-xl transition"
-                            onClick={() => setSelectedTrainer(null)}
+                          className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 font-semibold rounded-xl transition"
+                          onClick={() => setConfirmedTrainer(null)}
                         >
-                            Go Back
+                          Done
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <img
+                        src={selectedTrainer.photo}
+                        alt={selectedTrainer.name}
+                        className="w-24 h-24 rounded-full border-4 border-gray-700 mx-auto mb-4 object-cover"
+                      />
+                      <p className="text-center mb-4">
+                        Ready to start your journey with{" "}
+                        <span className="font-bold text-blue-400">{selectedTrainer.name}</span>?
+                      </p>
+                      <div className="flex justify-center gap-4">
+                        <button
+                          className="px-4 py-2 bg-neutral-700/80 hover:bg-neutral-600/80 rounded-xl transition"
+                          onClick={() => setSelectedTrainer(null)}
+                        >
+                          Go Back
                         </button>
                         <button
-                            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-xl transition duration-200 transform hover:scale-102 shadow-lg ring-1 ring-white/10"
-                            onClick={() => alert(`You chose ${selectedTrainer.name}!`)}
+                          className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 font-semibold rounded-xl transition"
+                          onClick={() => {
+                            setConfirmedTrainer(selectedTrainer);
+                            setSelectedTrainer(null);
+                          }}
                         >
-                            Yes
+                          Yes
                         </button>
-                    </div>
+                      </div>
+                    </>
+                  )}
                 </div>
+              </div>
             )}
+
+            {/* Bottom bar removed; selection bubble is now next to trainer card */}
         </div>
     );
 }

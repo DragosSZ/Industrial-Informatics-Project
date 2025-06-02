@@ -13,27 +13,37 @@ export const AuthProvider = ({ children }) => {
     });
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (!token) return;
+        const storedToken = localStorage.getItem("token");
+        const storedUser = localStorage.getItem("user");
 
-        try {
-            const decoded = jwtDecode(token);
-            setAuth({
-                isLoggedIn: true,
-                isTrainer: decoded.role === "trainer",
-                userId: decoded.sub,
-                token: token,
-                user: decoded
-            });
-        } catch (err) {
-            console.error("Token decode failed:", err);
-            setAuth({ isLoggedIn: false, isTrainer: false });
+        if (storedToken && storedUser) {
+            try {
+                const rawToken = storedToken.startsWith("Bearer ")
+                    ? storedToken.split(" ")[1]
+                    : storedToken;
+
+                const decoded = jwtDecode(rawToken);
+
+                if (decoded.exp * 1000 > Date.now()) {
+                    const parsedUser = JSON.parse(storedUser);
+                    setAuth({
+                        isLoggedIn: true,
+                        isTrainer: decoded.role === "trainer",
+                        userId: decoded.sub,
+                        token: rawToken,
+                        user: parsedUser
+                    });
+                } else {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user");
+                }
+            } catch (err) {
+                console.error("Failed to decode token:", err);
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+            }
         }
     }, []);
-
-    useEffect(() => {
-        console.log("Auth state changed:", auth);
-    }, [auth]);
 
     return (
         <AuthContext.Provider value={{ ...auth, setAuth }}>

@@ -2,10 +2,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
 var builder = WebApplication.CreateBuilder(args);
 
 // Register services
+builder.Services.AddSingleton<IMongoClient>(sp =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("MongoDb");
+    return new MongoClient(connectionString);
+});
 builder.Services.AddSingleton<MongoDbService>();
 builder.Services.AddControllers(); // ✅ Required to use controllers
 builder.Services.AddCors(options =>
@@ -57,7 +63,11 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-var jwtKey = builder.Configuration["Jwt:Key"]?.Trim();
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrEmpty(jwtKey))
+{
+    throw new InvalidOperationException("JWT Key is not configured.");
+}
 var key = Encoding.UTF8.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(options =>
@@ -72,7 +82,7 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new TokenValidationParameters
            {
                ValidateIssuerSigningKey = true,
-               IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+               IssuerSigningKey = new SymmetricSecurityKey(key),
                ValidateIssuer = true,
                ValidateAudience = true,
                ValidIssuer = "your-app",
@@ -84,6 +94,8 @@ builder.Services.AddAuthentication(options =>
         OnAuthenticationFailed = context =>
         {
             Console.WriteLine("❌ JWT authentication failed: " + context.Exception.Message);
+            Console.WriteLine("🔍 Token that failed: " + context.Request.Headers["Authorization"]);
+            Console.WriteLine("🔍 Exception details: " + context.Exception);
             return Task.CompletedTask;
         },
         OnTokenValidated = context =>
@@ -132,7 +144,11 @@ if (app.Environment.IsDevelopment())
             new System.Security.Claims.Claim("role", role)
         };
 
-        var jwtKey = builder.Configuration["Jwt:Key"]?.Trim();
+        var jwtKey = builder.Configuration["Jwt:Key"];
+        if (string.IsNullOrEmpty(jwtKey))
+        {
+            throw new InvalidOperationException("JWT Key is not configured.");
+        }
         var key = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(jwtKey));
         var creds = new Microsoft.IdentityModel.Tokens.SigningCredentials(key, Microsoft.IdentityModel.Tokens.SecurityAlgorithms.HmacSha256);
 

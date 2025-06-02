@@ -22,7 +22,8 @@ export default function ProgressTracker() {
       });
       if (res.ok) {
         const data = await res.json();
-        setEntries(data);
+        console.log("Fetched entries:", data.entries);
+        setEntries(data.entries || []);  // Important fallback
       } else {
         console.error("Failed to fetch progress data.");
       }
@@ -176,11 +177,26 @@ export default function ProgressTracker() {
                 multiple
                 onChange={(e) => {
                   const selected = Array.from(e.target.files).slice(0, 6);
-                  setPhotos(selected.length > 0 ? selected : photos);
+                  setPhotos(selected);
                 }}
                 className="hidden"
               />
             </label>
+            {photos.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-2">
+                {photos.map((file, i) => {
+                  const src = file instanceof File ? URL.createObjectURL(file) : file;
+                  return (
+                    <img
+                      key={i}
+                      src={src}
+                      alt="Preview"
+                      className="w-24 h-24 object-cover rounded"
+                    />
+                  );
+                })}
+              </div>
+            )}
           </div>
           <button
             type="submit"
@@ -218,18 +234,37 @@ export default function ProgressTracker() {
           {entries.map((entry, index) => (
             <li key={index} className="flex flex-col bg-neutral-800 p-2 rounded">
               <div className="flex justify-between items-center">
-                <span>{entry.date} - {entry.weight} kg</span>
+                <span>{new Date(entry.date).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })} - {entry.weight} kg</span>
                 <div className="flex gap-2 text-sm">
                   <button onClick={() => {
                     setEditingIndex(index);
                     setWeight(entry.weight);
-                    setDate(entry.date);
+                    setDate(entry.date.slice(0, 10));
                     setPhotos(entry.photos || []);
                   }} className="text-blue-400 hover:underline">Edit</button>
-                  <button onClick={() => {
-                    const updated = entries.filter((_, i) => i !== index);
-                    setEntries(updated);
-                  }} className="text-red-400 hover:underline">Delete</button>
+                  <button
+                      onClick={async () => {
+                        const token = localStorage.getItem("token");
+                        const id = entry.id;
+
+                        const res = await fetch(`http://localhost:5000/api/progress/${id}`, {
+                          method: "DELETE",
+                          headers: {
+                            Authorization: `Bearer ${token}`
+                          }
+                        });
+
+                        if (res.ok) {
+                          const updated = entries.filter((_, i) => i !== index);
+                          setEntries(updated);
+                        } else {
+                          console.error("Failed to delete entry");
+                        }
+                      }}
+                      className="text-red-400 hover:underline"
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
               {entry.photos?.length > 0 && (

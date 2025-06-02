@@ -31,7 +31,7 @@ public class User
     public Trainer trainer { get; set; } // Create a Trainer class if needed
 
     public List<Stat> stats { get; set; }
-    public List<string> pictureUrls { get; set; }
+    public List<string> pictureUrls { get; set; } = new();
 }
 
 

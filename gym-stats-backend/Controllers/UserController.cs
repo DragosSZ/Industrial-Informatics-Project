@@ -11,13 +11,14 @@ namespace gym_stats_backend.Controllers
     [Route("api/users")]
     public class UserController : ControllerBase
     {
-        private readonly IMongoCollection<User> _users;
+       private readonly IMongoCollection<User> _users;
 
-        public UserController(IMongoClient client)
-        {
-            var database = client.GetDatabase("gym-stats");
-            _users = database.GetCollection<User>("Users");
-        }
+       public UserController(IMongoClient client, IConfiguration config)
+       {
+           var databaseName = config["MongoDB:DatabaseName"];
+           var database = client.GetDatabase(databaseName);
+           _users = database.GetCollection<User>("users"); // ⚠️ Also fix case if needed
+       }
 
         [Authorize]
         [HttpGet("me")]

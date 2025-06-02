@@ -10,7 +10,7 @@ public class MongoDbService
     {
         try
         {
-            var connectionString = config["MongoDB:ConnectionString"];
+           var connectionString = config.GetConnectionString("MongoDb");
             var databaseName = config["MongoDB:DatabaseName"];
 
             var client = new MongoClient(connectionString);

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using MongoDB.Bson;
 using System.Security.Claims;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,6 +40,7 @@ public class ProgressController : ControllerBase
 
         var result = stats.Select(s => new
         {
+            id = s.Id?.ToString(),
             date = s.Date,
             weight = s.Weight,
             height = s.Height
@@ -96,6 +98,7 @@ public class ProgressController : ControllerBase
 
         var newStat = new Stat
         {
+            Id = ObjectId.GenerateNewId().ToString(),
             TraineeId = userId,
             Date = DateTime.Now,
             Weight = request.Weight,
